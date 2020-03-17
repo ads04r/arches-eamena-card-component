@@ -332,6 +332,43 @@
                             <!-- /ko -->
                         </h4>
                     </a>
+                    <!-- EAMENA DEV STARTS -->
+
+                    <form class="widgets" style="margin-bottom: 20px;">
+                        <div data-bind="foreach: {
+                                data:card.widgets, as: 'widget'
+                            }">
+                            <div data-bind='component: {
+                                name: self.form.widgetLookup[widget.widget_id()].name,
+                                params: {
+                                    widget: widget,
+                                    formData: self.tile.formData,
+                                    tile: self.tile,
+                                    form: self.form,
+                                    config: widget.configJSON,
+                                    label: widget.label(),
+                                    value: self.tile.data[widget.node_id()],
+                                    node: self.form.nodeLookup[widget.node_id()],
+                                    expanded: self.expanded,
+                                    graph: self.form.graph,
+                                    type: "resource-editor",
+                                    disabled: !self.card.isWritable && !self.preview
+                                }
+                            }, css:{ "active": widget.selected, "hover": widget.hovered, "widget-preview": self.preview
+                        }, click: function(data, e) { if (!widget.selected() && self.preview) {widget.selected(true);}
+                    }, event: { mouseover: function(){ if (self.preview){widget.hovered(true) } }, mouseout: function(){ if (self.preview){widget.hovered(null)} } }, visible: widget.visible'>
+            
+                            </div>
+                        </div>
+
+                    <div class="install-buttons">
+               
+                        <button class="btn btn-shim btn-labeled btn-lg fa fa-plus" data-bind="click: self.saveTile, css: {disabled: (!card.isWritable && !self.preview), 'btn-mint': card.isWritable }">{% trans 'Add'  %}
+                        </button>
+                   
+                    </div>
+         
+                    <!-- EAMENA DEV ENDS -->
 
                     <ul class="tile-summary-item" data-bind="foreach: {
                             data: card.tiles,
