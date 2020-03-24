@@ -332,6 +332,7 @@
                             <!-- /ko -->
                         </h4>
                     </a>
+
                     <!-- EAMENA DEV STARTS -->
 
                     <form class="widgets" style="margin-bottom: 20px;">
@@ -363,7 +364,7 @@
 
                     <div class="install-buttons">
                
-                        <button class="btn btn-shim btn-labeled btn-lg fa fa-plus" data-bind="click: self.saveTile, css: {disabled: (!card.isWritable && !self.preview), 'btn-mint': card.isWritable }">{% trans 'Add'  %}
+                        <button class="btn btn-shim btn-labeled btn-lg fa fa-plus" data-bind="click: function(a, b, c, d) { console.log(card); self.saveTile(a, b, c, d); }, css: {disabled: (!card.isWritable && !self.preview), 'btn-mint': card.isWritable }">{% trans 'Add'  %}
                         </button>
                    
                     </div>
@@ -395,6 +396,13 @@
                                 <span data-bind="text: card.model.name"></span>
                                 <!-- /ko -->
                             </a>
+
+                    <!-- EAMENA DEV STARTS -->
+
+                            <a href="#" data-bind="click: tile.deleteTile"><i class="fa fa-minus-circle"></i></a>
+
+                    <!-- EAMENA DEV ENDS -->
+
                         </li>
                     </ul>
                 </li>
@@ -412,11 +420,11 @@
                 <button class="btn btn-shim btn-danger btn-labeled btn-lg fa fa-times" data-bind="click: tile.reset">{% trans 'Cancel edit' %}</button>
                 <!-- /ko -->
                     <!-- ko if: tile.tileid -->
-                    <button class="btn btn-shim btn-labeled btn-lg fa fa-plus" data-bind="click: self.saveTile, css: {disabled: (!card.isWritable && !self.preview), 'btn-mint': card.isWritable }">{% trans 'Save edit' %}</button>
+                    <button class="btn btn-shim btn-labeled btn-lg fa fa-plus" data-bind="click: function(a, b, c, d) { console.log(card); self.saveTile(a, b, c, d); }, css: {disabled: (!card.isWritable && !self.preview), 'btn-mint': card.isWritable }">{% trans 'Save edit' %}</button>
                     <!-- /ko -->
                 <!-- /ko -->
                 <!-- ko if: !tile.tileid -->
-                <button class="btn btn-shim btn-labeled btn-lg fa fa-plus" data-bind="click: self.saveTile, css: {disabled: (!card.isWritable && !self.preview), 'btn-mint': card.isWritable }">{% trans 'Add'  %}</button>
+                <button class="btn btn-shim btn-labeled btn-lg fa fa-plus" data-bind="click: function(a, b, c, d) { console.log(card); self.saveTile(a, b, c, d); }, css: {disabled: (!card.isWritable && !self.preview), 'btn-mint': card.isWritable }">{% trans 'Add'  %}</button>
                 <!-- /ko -->
             </div>
             {% endblock form_buttons %}
