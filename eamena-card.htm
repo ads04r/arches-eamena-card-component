@@ -319,23 +319,22 @@
             {% block form_cards %}
             <ul class="card-summary-section" data-bind="css: {disabled: !tile.tileid}">
                 <!-- ko foreach: { data: tile.cards, as: 'card' } -->
+
+                <hr size="1"/>
+
                 <li class="card-summary" data-bind="visible: card.model.visible()">
                     <a href="javascript:void(0)" data-bind="click: function () {
                         if (card.parent.tileid) {
                             card.canAdd() ? card.selected(true) : card.tiles()[0].selected(true);
                         }
                     }">
-                        <h4 class="card-summary-name">
-                            <span data-bind="text: card.model.name"></span>
-                            <!-- ko if: card.canAdd() && card.parent.tileid -->
-                            <i class="fa fa-plus-circle card-summary-add"></i>
-                            <!-- /ko -->
-                        </h4>
                     </a>
 
                     <!-- EAMENA DEV STARTS -->
 
-                    <form class="widgets" style="margin-bottom: 20px;">
+                    <form class="widgets" style="margin-bottom: 2em;">
+
+
                         <div data-bind="foreach: {
                                 data:card.widgets, as: 'widget'
                             }">
@@ -358,16 +357,24 @@
                             }, css:{ "active": widget.selected, "hover": widget.hovered, "widget-preview": self.preview
                         }, click: function(data, e) { if (!widget.selected() && self.preview) {widget.selected(true);}
                     }, event: { mouseover: function(){ if (self.preview){widget.hovered(true) } }, mouseout: function(){ if (self.preview){widget.hovered(null)} } }, visible: widget.visible'>
-            
+
                             </div>
+            
                         </div>
 
-                    <div class="install-buttons">
+                        <div class="install-buttons pull-right">
                
-                        <button class="btn btn-shim btn-labeled btn-lg fa fa-plus" data-bind="click: function(a, b, c, d) { console.log(card); self.saveTile(a, b, c, d); }, css: {disabled: (!card.isWritable && !self.preview), 'btn-mint': card.isWritable }">{% trans 'Add'  %}
-                        </button>
+                            <button class="btn btn-shim btn-labeled btn-lg fa fa-plus" data-bind="click: function() {
+
+self.saveValue($index);
+
+			    };, css: {disabled: (!card.isWritable && !self.preview), 'btn-mint': card.isWritable }">{% trans 'Add'  %}
+                            </button>
                    
-                    </div>
+                        </div>
+
+
+                    </form>
          
                     <!-- EAMENA DEV ENDS -->
 
@@ -399,7 +406,7 @@
 
                     <!-- EAMENA DEV STARTS -->
 
-                            <a href="#" data-bind="click: tile.deleteTile"><i class="fa fa-minus-circle"></i></a>
+                            <a href="#" data-bind="click: function() { tile.deleteTile(); }"><i class="fa fa-minus-circle"></i></a>
 
                     <!-- EAMENA DEV ENDS -->
 
@@ -420,11 +427,11 @@
                 <button class="btn btn-shim btn-danger btn-labeled btn-lg fa fa-times" data-bind="click: tile.reset">{% trans 'Cancel edit' %}</button>
                 <!-- /ko -->
                     <!-- ko if: tile.tileid -->
-                    <button class="btn btn-shim btn-labeled btn-lg fa fa-plus" data-bind="click: function(a, b, c, d) { console.log(card); self.saveTile(a, b, c, d); }, css: {disabled: (!card.isWritable && !self.preview), 'btn-mint': card.isWritable }">{% trans 'Save edit' %}</button>
+                    <button class="btn btn-shim btn-labeled btn-lg fa fa-plus" data-bind="click: self.saveTile, css: {disabled: (!card.isWritable && !self.preview), 'btn-mint': card.isWritable }">{% trans 'Save edit' %}</button>
                     <!-- /ko -->
                 <!-- /ko -->
                 <!-- ko if: !tile.tileid -->
-                <button class="btn btn-shim btn-labeled btn-lg fa fa-plus" data-bind="click: function(a, b, c, d) { console.log(card); self.saveTile(a, b, c, d); }, css: {disabled: (!card.isWritable && !self.preview), 'btn-mint': card.isWritable }">{% trans 'Add'  %}</button>
+                <button class="btn btn-shim btn-labeled btn-lg fa fa-plus" data-bind="click: self.saveTile, css: {disabled: (!card.isWritable && !self.preview), 'btn-mint': card.isWritable }">{% trans 'Add'  %}</button>
                 <!-- /ko -->
             </div>
             {% endblock form_buttons %}
