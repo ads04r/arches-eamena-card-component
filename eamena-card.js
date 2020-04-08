@@ -10,7 +10,7 @@ define([
         this.expanded = ko.observable(true);
         this.data = ko.observableArray();
 
-	for(i = 0; i < 100; i++) { this.data.push(ko.observable('val ' + i)); }
+	for(i = 0; i < 100; i++) { this.data.push(ko.observable('')); } // hacky
 
         this.saveValue = function(arg)
         {
