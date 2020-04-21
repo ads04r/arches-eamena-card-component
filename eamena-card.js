@@ -10,18 +10,32 @@ define([
         this.expanded = ko.observable(true);
         this.data = ko.observableArray();
 
-	for(i = 0; i < 100; i++) { this.data.push(ko.observable('')); } // hacky
+	for(i = 0; i < 100; i++) { this.data.push(ko.observable('')); } // still hacky
 
         this.saveValue = function(arg)
         {
             var index = arg();
-            var tiles = this.card.tiles()[0].cards[index].tiles();
+            var value = this.data()[index]();
+            var atile = this.card.tiles()[0];
 
+            // At this point, if atile is undefined, we need to create it.
+            if(atile == null)
+            {
+                var topcard = this.card;
+                self.tile.save(null, function(tileData) {
 
-            var newtile = this.card.tiles()[0].cards[index].getNewTile();
-            var dataid = newtile.nodegroup_id;
-            newtile.data[dataid] = this.data()[index]();
-            newtile.save();
+                    var newtile = topcard.tiles()[0].cards[index].getNewTile();
+                    var dataid = newtile.nodegroup_id;
+                    newtile.data[dataid] = value;
+                    newtile.save();
+		});
+            } else {
+
+                var newtile = this.card.tiles()[0].cards[index].getNewTile();
+                var dataid = newtile.nodegroup_id;
+                newtile.data[dataid] = value;
+                newtile.save();
+            }
         };
 
         params.configKeys = ['selectSource', 'selectSourceLayer'];
