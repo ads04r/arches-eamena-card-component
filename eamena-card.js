@@ -21,20 +21,22 @@ define([
             // At this point, if atile is undefined, we need to create it.
             if(atile == null)
             {
-                var topcard = this.card;
+                var topcard = this.card; // Explicitly set this here so the callback can access it
                 self.tile.save(null, function(tileData) {
 
-                    var newtile = topcard.tiles()[0].cards[index].getNewTile();
+                    var newcard = topcard.tiles()[0].cards[index];
+                    var newtile = newcard.getNewTile();
                     var dataid = newtile.nodegroup_id;
                     newtile.data[dataid] = value;
-                    newtile.save();
+                    newtile.save(null, function(created){ newcard.parent.selected(true); });
 		});
             } else {
 
-                var newtile = this.card.tiles()[0].cards[index].getNewTile();
+                var newcard = this.card.tiles()[0].cards[index];
+                var newtile = newcard.getNewTile();
                 var dataid = newtile.nodegroup_id;
                 newtile.data[dataid] = value;
-                newtile.save();
+                newtile.save(null, function(created){ newcard.parent.selected(true); });
             }
         };
 
