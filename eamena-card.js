@@ -10,14 +10,19 @@ define([
         this.expanded = ko.observable(true);
         this.data = ko.observableArray();
 
-	for(i = 0; i < 100; i++) { this.data.push(ko.observable('')); } // still hacky
+        if(this.form)
+        {
+            for(i = 0; i < this.form.addableCards().length; i++)
+            {
+                self.data.push(ko.observable());
+            }
+        }
 
         this.saveValue = function(arg)
         {
             var index = arg();
-            var value = this.data()[index]();
+            var savevalue = this.data()[index]();
             var atile = this.card.tiles()[0];
-
             // At this point, if atile is undefined, we need to create it.
             if(atile == null)
             {
@@ -26,16 +31,25 @@ define([
 
                     var newcard = topcard.tiles()[0].cards[index];
                     var newtile = newcard.getNewTile();
-                    var dataid = newtile.nodegroup_id;
-                    newtile.data[dataid] = value;
+                    var keys = Object.keys(newtile.data);
+                    for(i = 0; i < keys.length; i++)
+                    {
+                        if(keys[i].startsWith('_')) { continue; }
+                        newtile.data[keys[i]] = savevalue;
+                    }
                     newtile.save(null, function(created){ newcard.parent.selected(true); });
 		});
             } else {
 
                 var newcard = this.card.tiles()[0].cards[index];
                 var newtile = newcard.getNewTile();
-                var dataid = newtile.nodegroup_id;
-                newtile.data[dataid] = value;
+                var keys = Object.keys(newtile.data);
+                for(i = 0; i < keys.length; i++)
+                {
+                    if(keys[i].startsWith('_')) { continue; }
+                    newtile.data[keys[i]] = savevalue;
+                }
+
                 newtile.save(null, function(created){ newcard.parent.selected(true); });
             }
         };
