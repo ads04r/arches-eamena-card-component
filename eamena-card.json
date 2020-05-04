@@ -1,6 +1,7 @@
 {
 	"name": "Eamena Card",
 	"description": "",
+        "componentid": "60e4e022-e2ba-40a0-948d-0538e27fbe1c",
 	"component": "views/components/card_components/eamena-card",
 	"componentname": "eamena-card",
 	"defaultconfig": {
